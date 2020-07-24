@@ -15,25 +15,21 @@ use ReactParallel\Streams\Factory;
 
 final class Logger extends AbstractLogger
 {
-    private Channel $channel;
+    private string $channelName;
 
     public function __construct(LoggerInterface $logger, Factory $streamFactory)
     {
-        $this-> channel = new Channel(Channel::Infinite);
-        $streamFactory->stream($this->channel)->subscribe(
+        $channel = new Channel(Channel::Infinite);
+        $this->channelName = (string)$channel;
+        $streamFactory->stream($channel)->map(static fn (string $item): Item => unserialize($item))->subscribe(
             static function (Item $item) use ($logger) {
                 $logger->log($item->level(), $item->message(), $item->context());
             }
         );
     }
 
-    public function __destruct()
-    {
-        $this->channel->close();
-    }
-
     public function log($level, $message, array $context = array())
     {
-        $this->channel->send(new Item((string)$level, $message, $context));
+        Channel::open($this->channelName)->send(serialize(new Item((string)$level, $message, $context)));
     }
 }
