@@ -1,0 +1,67 @@
+Escaped mutants:
+================
+
+Timed Out mutants:
+==================
+
+1) /mnt/d/Projects/psr-15-adapter/src/ReactMiddleware.php:67    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     }
+     public function __destruct()
+     {
+-        $this->workerPool->close();
++        
+     }
+ }
+
+
+Not Covered mutants:
+====================
+
+1) /mnt/d/Projects/psr-15-adapter/src/Request.php:21    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         $this->input = $input;
+         $this->output = $output;
+     }
+-    public function request() : ServerRequestInterface
++    protected function request() : ServerRequestInterface
+     {
+         return $this->request;
+     }
+
+
+2) /mnt/d/Projects/psr-15-adapter/src/Request.php:26    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->request;
+     }
+-    public function input() : Channel
++    protected function input() : Channel
+     {
+         return $this->input;
+     }
+
+
+3) /mnt/d/Projects/psr-15-adapter/src/Request.php:31    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->input;
+     }
+-    public function output() : Channel
++    protected function output() : Channel
+     {
+         return $this->output;
+     }
+ }

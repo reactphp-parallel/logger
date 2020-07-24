@@ -1,0 +1,48 @@
+{
+    "name": "react-parallel/logger",
+    "description": "\ud83c\udfab\ud83c\udf9f\ufe0f ",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cees-Jan Kiewiet",
+            "email": "ceesjank@gmail.com",
+            "homepage": "http://wyrihaximus.net/"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "opis/closure": "^3.5",
+        "psr/log": "^1.1",
+        "react-parallel/streams": "dev-master"
+    },
+    "require-dev": {
+        "moneyphp/money": "^3.2 || ^3.2.1",
+        "wyrihaximus/async-test-utilities": "^2.2"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.7"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "ReactParallel\\Logger\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ReactParallel\\Tests\\Logger\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-install-cmd": [
+            "composer normalize"
+        ],
+        "post-update-cmd": [
+            "composer normalize"
+        ]
+    }
+}
