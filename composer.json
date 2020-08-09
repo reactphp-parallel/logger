@@ -13,7 +13,7 @@
         "php": "^7.4",
         "opis/closure": "^3.5",
         "psr/log": "^1.1",
-        "react-parallel/streams": "dev-master"
+        "react-parallel/streams": "^1.0"
     },
     "require-dev": {
         "moneyphp/money": "^3.2 || ^3.2.1",
