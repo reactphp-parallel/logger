@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace ReactParallel\Logger;
 
 use parallel\Channel;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 use ReactParallel\Streams\Factory;
+
+use function serialize;
+use function unserialize;
 
 final class Logger extends AbstractLogger
 {
@@ -19,17 +18,17 @@ final class Logger extends AbstractLogger
 
     public function __construct(LoggerInterface $logger, Factory $streamFactory)
     {
-        $channel = new Channel(Channel::Infinite);
-        $this->channelName = (string)$channel;
-        $streamFactory->stream($channel)->map(static fn (string $item): Item => unserialize($item))->subscribe(
-            static function (Item $item) use ($logger) {
+        $channel           = new Channel(Channel::Infinite);
+        $this->channelName = (string) $channel;
+        $streamFactory->channel($channel)->map(static fn (string $item): Item => unserialize($item))->subscribe(
+            static function (Item $item) use ($logger): void {
                 $logger->log($item->level(), $item->message(), $item->context());
             }
         );
     }
 
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = []): void
     {
-        Channel::open($this->channelName)->send(serialize(new Item((string)$level, $message, $context)));
+        Channel::open($this->channelName)->send(serialize(new Item((string) $level, $message, $context)));
     }
 }
